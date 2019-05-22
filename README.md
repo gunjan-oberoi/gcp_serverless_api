@@ -1,5 +1,5 @@
 
-**bold** GCP PJI POC (SERVERLESS) 
+## GCP PJI POC (SERVERLESS) ##
 
 The Application is show GCP capablities to build a RESTful microservice based on Serverless Architecture.
 
