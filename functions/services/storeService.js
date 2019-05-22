@@ -1,4 +1,5 @@
-const storeDao = require('../dao/storeDao')
+const storeDao = require('../dao/storeDao');
+const pubSubService = require('../services/pubsubService');
 
 /**
  * To create a new store
@@ -32,8 +33,10 @@ function updateStore(req, res){
  * @param {*} req 
  * @param {*} res 
  */
-function getStoreById(req, res){
-    storeDao.fetchStoreById(req, res);
+async function getStoreById(req, res){
+    var response = await storeDao.fetchStoreById(req, res);
+    pubSubService.publishMessage(response);
+    res.send(response);
 }
    
 /**

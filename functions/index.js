@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./util/api_docs/swagger.json');
 const router = express.Router();
 const storeService = require('./services/storeService');
+const mailService = require('./services/mailService')
 const CONSTANTS = require('./util/constants');
 
 //Router for store create and get all stores
@@ -27,3 +28,12 @@ storeApi.use(CONSTANTS.BASE_URL+CONSTANTS.VERSION, router);
 
 //Exporting the service as cloud functions with http event
 exports.pji = functions.https.onRequest(storeApi);
+
+/**
+ * To send mail notification
+ */
+exports.storeTopicSubscriber = functions.pubsub.topic(CONSTANTS.TOPIC_NAME).onPublish(
+    (message) => {
+        mailService.sendMail(message);
+      } 
+);

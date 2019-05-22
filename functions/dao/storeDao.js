@@ -32,17 +32,16 @@ function removeStore(req, res){
     // db.collection(store_collection).doc(req.)
 }
 
-function fetchStoreById(req, res){
-    db.collection(store_collection).doc(req.params.storeId).get().then((snapshot)=>{
+async function fetchStoreById(req, res){
+    var snapshot = await db.collection(store_collection).doc(req.params.storeId).get().catch((error)=>{
+        console.log(error);
+    });
         const store = snapshot.data();
         var response = {
             statusCode: 200,
             responseObject: store
         }
-        res.send(response);
-    }).catch((error)=>{
-        console.log(error);
-    });
+        return response;
 }
 
 function updateStores(req, res){

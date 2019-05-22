@@ -3,6 +3,7 @@ module.exports = Object.freeze({
     BASE_URL : '/api/',
     API_DOCS : '/api-docs',
     COLLECTION : {
-        STORES : "stores"
-    }
+        STORES : 'stores'
+    },
+    TOPIC_NAME : 'hello_world_h'
 });
