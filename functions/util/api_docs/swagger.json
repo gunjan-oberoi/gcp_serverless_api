@@ -1,0 +1,767 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Order REST API",
+    "version": "1.0",
+    "title": "Order REST API",
+    "contact": {},
+    "license": {
+      "name": "License"
+    }
+  },
+  "host": "api.papajohns.com",
+  "basePath": "/v2",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/orders": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Create an Order.",
+        "operationId": "createOrderUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponseEnvelope"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "520": {
+            "description": "Store Closed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Retrieve Status of an Order.",
+        "operationId": "getOrderStatusUsingGET",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "The client identifier given to the client during the"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponseEnvelope"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "405": {
+            "description": "Method not supported",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "520": {
+            "description": "Store Closed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Cancel an Order.",
+        "operationId": "cancelOrderUsingDELETE",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reasonCode",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Reason for order cancellation",
+            "enum": [
+              "DID_NOT_ORDER",
+              "CHANGE_MIND",
+              "NO_ONE_HOME",
+              "WRONG_ADDRESS",
+              "DRIVER_LOST",
+              "TRAFFIC",
+              "WEATHER",
+              "NO_SHOW",
+              "WRONG_PHONE",
+              "INCORRECT_ORDER",
+              "FREE_PIZZA_COUPON",
+              "DONATION/FUNDRAISER",
+              "DUPLICATE_ORDER",
+              "TRANSFERRED_OUT_OF_AREA",
+              "OTHER"
+            ]
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "The JWT acess token to be used for authorization"
+          },
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "The client identifier given to the client during the Application registration process."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponseEnvelope"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "405": {
+            "description": "Method not supported",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          },
+          "520": {
+            "description": "Store Closed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseEnvelope"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Papajohns order ID"
+        }
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "OAuth2": {
+      "type": "oauth2",
+      "tokenUrl": "https://papajohns.com/oauth/token",
+      "flow": "password",
+      "scopes": {}
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "required": [
+        "address1",
+        "city",
+        "country",
+        "postalCode",
+        "state"
+      ],
+      "properties": {
+        "address1": {
+          "type": "string",
+          "description": "Street Number and Street Name"
+        },
+        "address2": {
+          "type": "string",
+          "description": "Apartment Number"
+        },
+        "address3": {
+          "type": "string",
+          "description": "Additional Info"
+        },
+        "city": {
+          "type": "string",
+          "description": "City Name"
+        },
+        "state": {
+          "type": "string",
+          "description": "State Name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country Name"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Postal Code"
+        }
+      },
+      "description": "Address description"
+    },
+    "Customer": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "phoneNumber"
+      ],
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "description": "customerId"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last Name"
+        },
+        "email": {
+          "type": "string",
+          "description": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "phoneNumber"
+        },
+        "deviceID": {
+          "type": "string",
+          "description": "The device Id for the customer device"
+        }
+      },
+      "description": "Customer description"
+    },
+    "Payment": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency",
+        "paymentType"
+      ],
+      "properties": {
+        "paymentToken": {
+          "type": "string",
+          "description": "Token used for payment authentication"
+        },
+        "currency": {
+          "type": "string",
+          "description": "currency"
+        },
+        "paymentType": {
+          "type": "string",
+          "enum": [
+            "CASH",
+            "CHECK",
+            "VISA",
+            "ACCOUNT",
+            "JCB",
+            "MASTERCARD",
+            "DISCOVER",
+            "AMERICAN_EXPRESS",
+            "DINERS",
+            "PAPA_CARD",
+            "MEAL_DEAL",
+            "GOOGLE",
+            "PAYPAL",
+            "VISA_DEBIT",
+            "MASTERCARD_DEBIT",
+            "POSTMATES"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "description": "Payment amount"
+        },
+        "tip": {
+          "type": "number",
+          "description": "tip"
+        }
+      },
+      "description": "Payment description"
+    },
+    "LineItem": {
+      "type": "object",
+      "required": [
+        "code",
+        "description",
+        "quantity"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Item code"
+        },
+        "description": {
+          "type": "string",
+          "description": "Item description"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Item quantity"
+        },
+        "price": {
+          "type": "number",
+          "description": "Item price"
+        },
+        "tax": {
+          "type": "number",
+          "description": "Tax amount"
+        },
+        "discountCode": {
+          "type": "string",
+          "description": "Discount Code"
+        },
+        "discountAmount": {
+          "type": "number",
+          "description": "Discount amount"
+        },
+        "customizations": {
+          "type": "array",
+          "description": "Different item's customizations",
+          "items": {
+            "$ref": "#/definitions/Customization"
+          }
+        },
+        "instruction": {
+          "type": "string",
+          "description": "Any special instructions that is not covered by the customization"
+        }
+      }
+    },
+    "Delivery": {
+      "type": "object",
+      "properties": {
+        "deliveryAddress": {
+          "$ref": "#/definitions/Address"
+        },
+        "instruction": {
+          "type": "string",
+          "description": "Delivery Instruction"
+        },
+        "pickupInfo": {
+          "$ref": "#/definitions/PickupInfo"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email Address for delivery related communication"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Phone Number for delivery related communication"
+        }
+      },
+      "description": "Pickup information"
+    },
+    "Order": {
+      "type": "object",
+      "required": [
+        "channel",
+        "channelOrderId",
+        "createdTimestamp",
+        "customer",
+        "orderType",
+        "storeId",
+        "updatedTimestamp"
+      ],
+      "properties": {
+        "channelOrderId": {
+          "type": "string",
+          "description": "ID assigned to the order by the channel partner"
+        },
+        "orderId": {
+          "type": "string",
+          "description": "ID assigned to the order by Papajohns"
+        },
+        "orderType": {
+          "type": "string",
+          "enum": [
+            "DELIVERY",
+            "CARRYOUT",
+            "DINEIN",
+            "OFFSITE",
+            "QUICK"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "description": "tags",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pickupDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "pickupDateTime"
+        },
+        "storeId": {
+          "type": "string",
+          "description": "storeId"
+        },
+        "createdTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "createdTimestamp"
+        },
+        "updatedTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "updatedTimestamp"
+        },
+        "channel": {
+          "type": "string",
+          "description": "channel"
+        },
+        "customer": {
+          "$ref": "#/definitions/Customer"
+        },
+        "payments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Payment"
+          }
+        },
+        "discount": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/discount"
+          }
+        },
+        "tax": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Payment_tax"
+          }
+        },
+        "totalTip": {
+          "type": "number",
+          "description": "total tip on the order"
+        },
+        "cart": {
+          "type": "array",
+          "description": "items",
+          "items": {
+            "$ref": "#/definitions/CartItem"
+          }
+        },
+        "delivery": {
+          "$ref": "#/definitions/Delivery"
+        }
+      },
+      "description": "Order description"
+    },
+    "OrderResponse": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "Papajohns order ID"
+        },
+        "orderStatus": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "IN_PROGRESS",
+            "READY",
+            "ON_RACK",
+            "IN_OVEN",
+            "ON_MAKELINE",
+            "NONE",
+            "CREATED",
+            "COMPLETED",
+            "OUT_FOR_DELIVERY",
+            "CANCELLED",
+            "ERROR"
+          ]
+        },
+        "responseMessage": {
+          "type": "string",
+          "description": "Response Message"
+        }
+      },
+      "description": "Order response description",
+      "example": [
+        {
+          "orderId": "ABC123",
+          "orderStatus": "Cancelled",
+          "responseMessage": "Successfully Cancelled"
+        }
+      ]
+    },
+    "PickupInfo": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "firstName"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "lastName"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "phoneNumber"
+        }
+      },
+      "description": "Pickup Information"
+    },
+    "SuccessResponseEnvelope": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderResponse"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Response status",
+          "default": "success"
+        }
+      },
+      "example": {
+        "status": "success",
+        "data": [
+          {
+            "orderId": "ABC123",
+            "orderStatus": "CREATED",
+            "responseMessage": "Successfully Created"
+          }
+        ]
+      }
+    },
+    "ErrorResponseEnvelope": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderResponse"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Response status",
+          "default": "Error"
+        }
+      },
+      "example": {
+        "status": "error",
+        "data": [
+          {
+            "orderId": "ABC123",
+            "orderStatus": "ERROR",
+            "responseMessage": "Internal Server Error"
+          }
+        ]
+      }
+    },
+    "Customization": {
+      "type": "object",
+      "properties": {
+        "portionType": {
+          "type": "string",
+          "enum": [
+            "WHOLE",
+            "HALF1",
+            "HALF2"
+          ]
+        },
+        "instruction": {
+          "type": "string",
+          "description": "Instruction on Customization level"
+        },
+        "customizationCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "price": {
+          "type": "number",
+          "description": "Price"
+        }
+      }
+    },
+    "Payment_fee": {
+      "type": "object",
+      "properties": {
+        "feeType": {
+          "type": "string",
+          "description": "Fee type",
+          "x-example": [
+            "service",
+            "delivery"
+          ]
+        },
+        "feeAmount": {
+          "type": "number",
+          "description": "Fee amount"
+        }
+      }
+    },
+    "Payment_tax": {
+      "type": "object",
+      "properties": {
+        "taxType": {
+          "type": "string",
+          "description": "Tax type",
+          "x-example": [
+            "food",
+            "beverage"
+          ]
+        },
+        "taxAmount": {
+          "type": "number",
+          "description": "Tax amount"
+        }
+      }
+    },
+    "discount": {
+      "type": "object",
+      "properties": {
+        "discountType": {
+          "type": "string",
+          "description": "Discount type"
+        },
+        "discountCode": {
+          "type": "string",
+          "description": "Discount code"
+        },
+        "discountAmount": {
+          "type": "number",
+          "description": "Discount amount"
+        }
+      }
+    },
+    "CartItem": {
+      "type": "object",
+      "properties": {
+        "fee": {
+          "$ref": "#/definitions/Payment_fee"
+        },
+        "lineItem": {
+          "$ref": "#/definitions/LineItem"
+        }
+      }
+    }
+  }
+}
