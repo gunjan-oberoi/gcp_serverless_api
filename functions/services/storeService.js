@@ -6,8 +6,10 @@ const pubSubService = require('../services/pubsubService');
  * @param {*} req 
  * @param {*} res 
  */
-function createStore(req, res){
-    storeDao.saveStore(req, res);
+async function createStore(req, res){
+    var response = await storeDao.saveStore(req);
+    pubSubService.publishMessage(response);
+    res.send(response);
 };
 
 /**
@@ -15,8 +17,19 @@ function createStore(req, res){
  * @param {*} req 
  * @param {*} res 
  */
-function getAllStores(req, res){
-    storeDao.fetchAllStores(req, res);
+async function getAllStores(req, res){
+    var response = await storeDao.fetchAllStores();
+    res.send(response);
+}
+
+/**
+ * To get store details by store Id
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function getStoreById(req, res){
+    var response = await storeDao.fetchStoreById(req);
+    res.send(response);
 }
 
 /**
@@ -24,28 +37,19 @@ function getAllStores(req, res){
  * @param {*} req 
  * @param {*} res 
  */
-function updateStore(req, res){
-    storeDao.updateStores(req, res);
-}
- 
-/**
- * To get store details by store Id
- * @param {*} req 
- * @param {*} res 
- */
-async function getStoreById(req, res){
-    var response = await storeDao.fetchStoreById(req, res);
-    pubSubService.publishMessage(response);
+async function updateStore(req, res){
+    var response = await storeDao.updateStore(req);
     res.send(response);
 }
-   
+ 
 /**
  * To delete a store by Id
  * @param {*} req 
  * @param {*} res 
  */
-function deleteStore(req, res){
-    storeDao.removeStore(req,res);
+async function deleteStore(req, res){
+    var response = await storeDao.removeStore(req);
+    res.send(response);
 }
 
 module.exports = {

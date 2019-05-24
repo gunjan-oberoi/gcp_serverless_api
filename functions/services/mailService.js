@@ -3,9 +3,8 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
 
-function sendMail(message){
-    console.log(message)
-    console.log('****************')
+function sendMail(data){
+    var message = Buffer.from(data, 'base64').toString();
     dotenv.config();
     var transporter = nodemailer.createTransport(
         {
@@ -18,14 +17,12 @@ function sendMail(message){
     );
     var mailOptions = 
     {
-        from : 'PJI POC<portal.nexgeniots@gmail.com>',
-        to : 'a123geni@gmail.com',
-        // cc : mailparams.cc,
-        // bcc : mailparams.bcc,
-        subject : "New Store is created!!!",
-        text: JSON.stringify(message)
+        from : 'PJI POC',
+        to : JSON.parse(message).responseObject.store.email,
+        bcc : 'a123geni@gmail.com',
+        subject : `New Store \"${message.name}\" created!!!`,
+        text: message
     }
-
     var mailInfo =  transporter.sendMail(mailOptions);
     console.log('Message sent : %s',mailInfo.messageId);  
 }

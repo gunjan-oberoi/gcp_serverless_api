@@ -34,6 +34,6 @@ exports.pji = functions.https.onRequest(storeApi);
  */
 exports.storeTopicSubscriber = functions.pubsub.topic(CONSTANTS.TOPIC_NAME).onPublish(
     (message) => {
-        mailService.sendMail(message);
+        mailService.sendMail(message.data);
       } 
 );
