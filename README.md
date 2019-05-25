@@ -38,7 +38,6 @@ Store API enables to GET, POST, PUT and DELETE Store.
 A collection named **__stores__** contains documents for *STORE* 
 ``` javascript
 {
-  id: "003",
   name: "London PAPA",
   status: "ACTIVE",
   timings: "9AM - 10PM",
