@@ -27,7 +27,7 @@ storeApi.use(cors({origin: true}));
 storeApi.use(CONSTANTS.BASE_URL+CONSTANTS.VERSION, router);
 
 //Exporting the service as cloud functions with http event
-exports.pji = functions.https.onRequest(storeApi);
+exports.serverless = functions.https.onRequest(storeApi);
 
 /**
  * To send mail notification

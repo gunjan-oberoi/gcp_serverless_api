@@ -5,5 +5,5 @@ module.exports = Object.freeze({
     COLLECTION : {
         STORES : 'stores'
     },
-    TOPIC_NAME : 'hello_world_h'
+    TOPIC_NAME : 'store-msg-queue'
 });
