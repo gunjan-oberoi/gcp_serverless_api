@@ -1,4 +1,4 @@
-# PJI - GCP SERVERLESS Proof-Of-Concept
+# GCP SERVERLESS Proof-Of-Concept
 
 GCP offers and supports serverless compute platform via Cloud functions. 
 The application utilises these capabilities to build a RESTful microservice **Store API** with individual, autonomous **Cloud Functions**. Store API performs CRUD operations on **Cloud Firestore** database; and publish messages to **PUB/SUB** and emit Events. PUB/SUB Subscribers responds to the events.
@@ -9,18 +9,18 @@ Below GCP services are used to accomplish the serverless application.
 1. Firestore (No SQL database)
 1. Pub/Sub (Asyn message queue)
 
-![Serverless App Architecture](https://github.com/hjadon27/PJI_Serverless_Functions/blob/dev/flow.png)
+![Serverless App Architecture](https://github.com/hjadon27/Designs/blob/master/gcp_serverless.png)
 
 
 ###### Store API
 Store API enables to GET, POST, PUT and DELETE Store.
 1. POST Store
-   - create new store *https://us-central1-gcp-serverless-240708.cloudfunctions.net/pji/api/v1/stores*
+   - create new store *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores*
    >  - Request body:
         ```{
-               "name": "Newyork, Timesqare PAPA Johns",
+               "name": "Newyork, Timesqare Gems Store",
                "zip": 139445,
-               "status": "INACTIVE",
+               "status": "ACTIVE",
                "timings":  "11AM - 10PM",
                "email": "harendra.kumar@hcl.com"
             }
@@ -30,17 +30,17 @@ Store API enables to GET, POST, PUT and DELETE Store.
    >  - The topic message is subscribed by a cloud function and send email notification.
    
 2. GET Stores
-   - get all stores *https://us-central1-gcp-serverless-240708.cloudfunctions.net/pji/api/v1/stores*
-   - get store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/pji/api/v1/stores/001*
+   - get all stores *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores*
+   - get store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
    > - reads data from the Cloud Firestore Collection **__stores__**
    
 3. PUT Store
-   - update store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/pji/api/v1/stores/001*
+   - update store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
    >  - updates data into the Cloud Firestore Collection **__stores__**
    >  - publishes a message on PUB/SUB topic **__store-msg-queue__** as **Update Store Id**
    
 4. DELETE Store
-   - delete store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/pji/api/v1/stores/001*
+   - delete store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
    >  - deletes data from the Cloud Firestore Collection **__stores__**
    >  - publishes a message on PUB/SUB topic **__store-msg-queue__** as **Delete Store Id**
 
@@ -48,7 +48,7 @@ Store API enables to GET, POST, PUT and DELETE Store.
 A collection named **__stores__** contains documents for *STORE* 
 ``` javascript
 {
-  name: "London PAPA",
+  name: "Delhi shop 007",
   status: "ACTIVE",
   timings: "9AM - 10PM",
   zip: 123455,
