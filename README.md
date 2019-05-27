@@ -17,30 +17,122 @@ Store API enables to GET, POST, PUT and DELETE Store.
 1. POST Store
    - create new store *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores*
    >  - Request body:
-        ```{
+     ```{
                "name": "Newyork, Timesqare Gems Store",
                "zip": 139445,
                "status": "ACTIVE",
                "timings":  "11AM - 10PM",
                "email": "harendra.kumar@hcl.com"
             }
-         ```
+      ```
+   >  - Response:
+      ```
+        {
+             "statusCode": 200,
+             "responseObject": {
+                 "storeId": "xmtUgMM4Ciu4XinQgEpr",
+                 "store": {
+                     "name": "Newyork, Timesqare Gems Store",
+                     "zip": 139445,
+                     "status": "ACTIVE",
+                     "timings":  "11AM - 10PM",
+                     "email": "harendra.kumar@hcl.com"
+                 }
+             }
+         }
+      ```
    >  - Inserts data into the Cloud Firestore Collection **__stores__** and generate a storeId.
    >  - Publishes a message on PUB/SUB topic **__store-msg-queue__** as **New Store Created**
    >  - The topic message is subscribed by a cloud function and send email notification.
    
 2. GET Stores
-   - get all stores *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores*
-   - get store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
-   > - reads data from the Cloud Firestore Collection **__stores__**
-   
+   - get all stores from firestore *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores*
+   > - Response:
+   ```
+      {
+             "statusCode": 200,
+             "responseObject": [
+                 {
+                     "id": "L9pqIzc55673vI5YsWu6",
+                     "storeObject": {
+                         "zip": 139445,
+                         "timings": "11AM - 10PM",
+                         "status": "INACTIVE",
+                         "email": "harendra.kumar@hcl.com",
+                         "name": "Delhi Shop 009"
+                     }
+                 },
+                 {
+                     "id": "xmtUgMM4Ciu4XinQgEpr",
+                     "storeObject": {
+                         "timings": "11AM - 10PM",
+                         "status": "INACTIVE",
+                         "email": "harendra.kumar@hcl.com",
+                         "name": "Newyork, Timesqare Gems Store",
+                         "zip": 139445
+                     }
+                 }
+             ]
+         }
+   ```
+   - get store by id from firestore *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/xmtUgMM4Ciu4XinQgEpr*
+   > - Response:
+   ```
+      {
+          "statusCode": 200,
+          "responseObject": {
+              "id": "xmtUgMM4Ciu4XinQgEpr",
+              "storeObject": {
+                  "zip": 139445,
+                  "timings": "11AM - 10PM",
+                  "status": "INACTIVE",
+                  "email": "harendra.kumar@hcl.com",
+                  "name": "Newyork, Timesqare Gems Store"
+              }
+          }
+      }
+   ```
+
 3. PUT Store
-   - update store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
-   >  - updates data into the Cloud Firestore Collection **__stores__**
-   >  - publishes a message on PUB/SUB topic **__store-msg-queue__** as **Update Store Id**
+   - update store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/xmtUgMM4Ciu4XinQgEpr*
+   > - Request body:
+   ```
+        {
+                "zip": 139445,
+                "timings": "11AM - 10PM",
+                "status": "INACTIVE",
+                "email": "harendra.kumar@hcl.com",
+                "name": "Newyork, Timesqare Gems Store"
+         }
+    ```
+    > - Response:
+   ```
+      {
+             "statusCode": 200,
+             "responseObject": {
+                 "storeId": "xmtUgMM4Ciu4XinQgEpr",
+                 "store": {
+                     "zip": 139445,
+                     "timings": "11AM - 10PM",
+                     "status": "INACTIVE",
+                     "email": "harendra.kumar@hcl.com",
+                     "name": "Newyork, Timesqare Gems Store"
+                 }
+             }
+        }
+   ```
    
 4. DELETE Store
-   - delete store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/001*
+   - delete store by id *https://us-central1-gcp-serverless-240708.cloudfunctions.net/serverless/api/v1/stores/qx6VjyBgK7nWjup8JDpZ*
+   > - Response:
+   ```
+      {
+          "statusCode": 200,
+          "responseObject": {
+              "message": "The store with storeId qx6VjyBgK7nWjup8JDpZ deleted."
+          }
+      }
+   ```
    >  - deletes data from the Cloud Firestore Collection **__stores__**
    >  - publishes a message on PUB/SUB topic **__store-msg-queue__** as **Delete Store Id**
 
@@ -61,5 +153,3 @@ A collection named **__stores__** contains documents for *STORE*
 Topic **__store-msg-queue__** emits Events and subscribers PUSH / PULL messages and responds to events
 1. PUSH subscriber as Cloud Function - send an email notification
 2. PULL subscriber
-
-:+1:
